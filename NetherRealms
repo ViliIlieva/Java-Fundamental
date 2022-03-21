@@ -1,0 +1,41 @@
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class NetherRealms {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String healthRegex = "[^0-9+\\-*\\/\\.]";
+        String damageRegex = "(-?\\d+(\\.\\d+)?)";
+        String multiplyOrDividing = "[*\\/]";
+
+        String [] input = scanner.nextLine().split("[\\s]*[,][\\s]*");
+        Pattern patternHealth = Pattern.compile(healthRegex);
+        Pattern patternDamage = Pattern.compile(damageRegex);
+        Pattern pattern = Pattern.compile(multiplyOrDividing);
+
+        for (int j = 0; j < input.length; j++) {
+            int sumHealth = 0;
+            double sumDamage = 0.0;
+            Matcher matcherHealth = patternHealth.matcher(input[j]);
+            Matcher matcherDamage = patternDamage.matcher(input[j]);
+            Matcher matcher = pattern.matcher(input[j]);
+
+            while (matcherHealth.find()) {
+                sumHealth += matcherHealth.group().charAt(0);
+            }
+            while (matcherDamage.find()) {
+                sumDamage += Double.parseDouble(matcherDamage.group());
+            }
+            while (matcher.find()) {
+                if (matcher.group().equals("*")) {
+                    sumDamage = sumDamage * 2;
+                } else {
+                    sumDamage = sumDamage / 2;
+                }
+            }
+            System.out.printf("%s - %d health, %.2f damage%n", input[j], sumHealth, sumDamage);
+        }
+    }
+}
