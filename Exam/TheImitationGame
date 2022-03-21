@@ -1,0 +1,38 @@
+import java.util.Scanner;
+
+public class TheImitationGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        StringBuilder text = new StringBuilder(scanner.nextLine());
+        String input = scanner.nextLine();
+        while (!input.equals("Decode")){
+            String [] commands = input.split("\\|");
+            switch (commands[0]){
+                case "Move":
+                    for (int i = 0; i < Integer.parseInt(commands[1]); i++) {
+                        char moveSymbol = text.charAt(0);
+                       text.deleteCharAt(0);
+                        text.append(moveSymbol);
+                    }
+                    break;
+                case "Insert":
+                    int index = Integer.parseInt(commands[1]);
+                    text.insert(index, commands[2]);
+                    break;
+                case "ChangeAll":
+                       String toReplace = text.toString();
+                       int indexToRemove = toReplace.indexOf(commands[1]);
+                       while (indexToRemove != -1){
+                           toReplace = toReplace.replace(commands[1], commands[2]);
+                           indexToRemove = toReplace.indexOf(commands[1]);
+                           text.delete(0, text.length());
+                           text.append(toReplace);
+                       }
+                        break;
+            }
+            input = scanner.nextLine();
+        }
+        System.out.printf("The decrypted message is: %s", text);
+    }
+}
