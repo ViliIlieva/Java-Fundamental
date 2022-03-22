@@ -1,0 +1,82 @@
+import java.util.*;
+
+public class HeroesOfCodeAndLogic {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = Integer.parseInt(scanner.nextLine());
+
+        Map<String, List<Integer>> heroes = new LinkedHashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            String[] input = scanner.nextLine().split(" ");
+            heroes.put(input[0], new ArrayList<>());
+            heroes.get(input[0]).add(Integer.parseInt(input[1]));
+            heroes.get(input[0]).add(Integer.parseInt(input[2]));
+        }
+
+        String input = scanner.nextLine();
+        String nameHeroes = "";
+        int MP = 0;
+        int HP = 0;
+
+        while (!input.equals("End")) {
+            String[] commands = input.split(" - ");
+            String command = commands[0];
+            switch (command) {
+                case "CastSpell":
+                    MP = Integer.parseInt(commands[2]);
+                    nameHeroes = commands[1];
+                    if (heroes.get(nameHeroes).get(1) >= MP) {
+                        heroes.get(nameHeroes).set(1, heroes.get(nameHeroes).get(1) - MP);
+                        System.out.printf("%s has successfully cast %s and now has %d MP!%n", commands[1], commands[3], heroes.get(nameHeroes).get(1));
+                    } else {
+                        System.out.printf("%s does not have enough MP to cast %s!%n", commands[1], commands[3]);
+                    }
+                    break;
+                case "TakeDamage":
+                    nameHeroes = commands[1];
+                    HP = Integer.parseInt(commands[2]);
+                    heroes.get(nameHeroes).set(0, heroes.get(nameHeroes).get(0) - HP);
+                    if (heroes.get(nameHeroes).get(0) <= 0) {
+                        heroes.remove(nameHeroes);
+                        System.out.printf("%s has been killed by %s!%n", nameHeroes, commands[3]);
+                    } else {
+                        System.out.printf("%s was hit for %d HP by %s and now has %d HP left!%n", nameHeroes, HP, commands[3], heroes.get(nameHeroes).get(0));
+                    }
+                    break;
+                case "Recharge":
+                    nameHeroes = commands[1];
+                    MP = Integer.parseInt(commands[2]);
+                    if (heroes.get(nameHeroes).get(1) + MP > 200) {
+                        int dif = 200 - heroes.get(nameHeroes).get(1);
+                        heroes.get(nameHeroes).set(1, 200);
+                        System.out.printf("%s recharged for %d MP!%n", nameHeroes, dif);
+                    } else {
+                        heroes.get(nameHeroes).set(1, heroes.get(nameHeroes).get(1) + MP);
+                        System.out.printf("%s recharged for %d MP!%n", nameHeroes, MP);
+                    }
+                    break;
+                case "Heal":
+                    nameHeroes = commands[1];
+                    HP = Integer.parseInt(commands[2]);
+                    if (heroes.get(nameHeroes).get(0) + HP > 100) {
+                        int dif = 100 - heroes.get(nameHeroes).get(0);
+                        heroes.get(nameHeroes).set(0, 100);
+                        System.out.printf("%s healed for %d HP!%n", nameHeroes, dif);
+                    } else {
+                        heroes.get(nameHeroes).set(0, heroes.get(nameHeroes).get(0) + HP);
+                        System.out.printf("%s healed for %d HP!%n", nameHeroes, HP);
+                    }
+                    break;
+            }
+            input = scanner.nextLine();
+        }
+        for (Map.Entry<String, List<Integer>> entry : heroes.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println("  HP: " + entry.getValue().get(0));
+            System.out.println("  MP: " + entry.getValue().get(1));
+        }
+
+    }
+}
