@@ -1,0 +1,37 @@
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class FancyBarcodes {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String regex = "@#+(?<barcode>[A-Z][A-Za-z0-9]{4}[A-Za-z0-9]*[A-Z])@#+";
+        Pattern pattern = Pattern.compile(regex);
+        Pattern containsDigits = Pattern.compile("(?<digits>[\\d+])");
+
+        int n = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < n; i++) {
+            boolean containsDigit = false;
+            String input = scanner.nextLine();
+            Matcher matcher = pattern.matcher(input);
+
+            if(matcher.find()) {
+                String barcode = matcher.group("barcode");
+                Matcher matcherDigit = containsDigits.matcher(barcode);
+                StringBuilder num = new StringBuilder();
+                while(matcherDigit.find()) {
+                    num.append(Integer.parseInt(matcherDigit.group("digits")));
+                containsDigit = true;
+                }
+                if(containsDigit) {
+                    System.out.printf("Product group: %s%n", num);
+                }else {
+                    System.out.println("Product group: 00");
+                }
+            }else {
+                System.out.println("Invalid barcode");
+            }
+        }
+    }
+}
