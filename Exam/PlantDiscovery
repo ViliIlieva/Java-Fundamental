@@ -1,0 +1,48 @@
+import java.util.*;
+
+public class PlantDiscovery {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, Integer> plantsRarity = new LinkedHashMap<>();
+        Map<String, List<Double>> plantsRating = new LinkedHashMap<>();
+        int n = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < n; i++) {
+            String[] input = scanner.nextLine().split("<->");
+            plantsRating.putIfAbsent(input[0], new ArrayList<>());
+            plantsRarity.put(input[0], Integer.parseInt(input[1]));
+        }
+        String command = scanner.nextLine();
+        while (!command.equals("Exhibition")) {
+            String[] commandArr = command.split(": ");
+            String[] plantInfo = commandArr[1].split(" - ");
+            String plant = plantInfo[0];
+            if (plantsRarity.containsKey(plantInfo[0])) {
+                switch (commandArr[0]) {
+                    case "Rate":
+                        double rating = Double.parseDouble(plantInfo[1]);
+                        plantsRating.get(plant).add(rating);
+                        break;
+                    case "Update":
+                        int newRarity = Integer.parseInt(plantInfo[1]);
+                        plantsRarity.replace(plant, newRarity);
+                        break;
+                    case "Reset":
+                        plantsRating.get(plant).clear();
+                        break;
+                }
+            } else {
+                System.out.println("error");
+            }
+            command = scanner.nextLine();
+        }
+        System.out.println("Plants for the exhibition:");
+        plantsRarity.entrySet()
+                .forEach(entry -> System.out.printf("- %s; Rarity: %d; Rating: %.2f%n",
+                        entry.getKey(), entry.getValue(),
+                        plantsRating.get(entry.getKey()).stream()
+                                .mapToDouble(Double::doubleValue)
+                                .average().orElse(0.0)));
+
+    }
+}
