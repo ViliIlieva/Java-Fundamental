@@ -43,6 +43,5 @@ public class PlantDiscovery {
                         plantsRating.get(entry.getKey()).stream()
                                 .mapToDouble(Double::doubleValue)
                                 .average().orElse(0.0)));
-
     }
 }
