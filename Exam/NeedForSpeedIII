@@ -54,6 +54,7 @@ public class NeedForSpeedIII {
             }
             input = scanner.nextLine();
         }
+        
         carsMap.forEach((k,v)-> System.out.printf("%s -> Mileage: %d kms, Fuel in the tank: %d lt.%n"
                 ,k,v.get(0),v.get(1)));
 
