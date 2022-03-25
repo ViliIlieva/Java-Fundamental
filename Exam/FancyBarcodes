@@ -15,7 +15,6 @@ public class FancyBarcodes {
             boolean containsDigit = false;
             String input = scanner.nextLine();
             Matcher matcher = pattern.matcher(input);
-
             if(matcher.find()) {
                 String barcode = matcher.group("barcode");
                 Matcher matcherDigit = containsDigits.matcher(barcode);
