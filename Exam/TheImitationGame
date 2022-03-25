@@ -33,6 +33,7 @@ public class TheImitationGame {
             }
             input = scanner.nextLine();
         }
+        
         System.out.printf("The decrypted message is: %s", text);
     }
 }
