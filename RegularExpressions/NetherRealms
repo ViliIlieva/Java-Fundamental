@@ -35,6 +35,7 @@ public class NetherRealms {
                     sumDamage = sumDamage / 2;
                 }
             }
+            
             System.out.printf("%s - %d health, %.2f damage%n", input[j], sumHealth, sumDamage);
         }
     }
