@@ -1,2 +1,2 @@
 # Java-Fundamental
-My homework,exercise and exams from fundamentals course in SoftUni
+My homework,exercise and exams from course in SoftUni
