@@ -1,0 +1,48 @@
+import java.util.Locale;
+import java.util.Scanner;
+
+public class ActivationKeys {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        StringBuilder text = new StringBuilder(scanner.nextLine());
+
+        String input = scanner.nextLine();
+        while (!input.equals("Generate")){
+            String [] commandsArr = input.split(">>>");
+            switch (commandsArr[0]){
+                case "Contains":
+                    if(text.toString().contains(commandsArr[1])){
+                        System.out.printf("%s contains %s%n",text, commandsArr[1]);
+                    }else {
+                        System.out.println("Substring not found!");
+                    }
+                    break;
+                case "Flip":
+                    int startIndex = Integer.parseInt(commandsArr[2]);
+                    int endIndex = Integer.parseInt(commandsArr[3]);
+                    StringBuilder substring = new StringBuilder(text.substring(startIndex, endIndex));
+                    if(commandsArr[1].equals("Upper")){
+                        StringBuilder newSubstring = new StringBuilder(substring.toString().toUpperCase(Locale.ROOT));
+                        text.delete(startIndex, endIndex);
+                        text.insert(startIndex, newSubstring);
+                        System.out.println(text);
+                    }else{
+                        StringBuilder newSubstring = new StringBuilder(substring.toString().toLowerCase(Locale.ROOT));
+                        text.delete(startIndex, endIndex);
+                        text.insert(startIndex, newSubstring);
+                        System.out.println(text);
+                    }
+                    break;
+                case "Slice":
+                    startIndex = Integer.parseInt(commandsArr[1]);
+                    endIndex = Integer.parseInt(commandsArr[2]);
+                    text.delete(startIndex, endIndex);
+                    System.out.println(text);
+                    break;
+            }
+            input = scanner.nextLine();
+        }
+        System.out.printf("Your activation key is: %s", text);
+    }
+}
