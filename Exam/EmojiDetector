@@ -1,0 +1,41 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class EmojiDetector {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        List<String> coolList = new ArrayList<>();
+        Pattern pattern = Pattern.compile("([*]{2}|[:]{2})(?<emoji>[A-Z][a-z]{2,})\\1");
+        Matcher matcher = pattern.matcher(input);
+
+        Pattern coolPattern = Pattern.compile("(?<digit>\\d)");
+        Matcher coolMatcher = coolPattern.matcher(input);
+
+        double coolThreshold = 1;
+        int count = 0;
+
+        while (coolMatcher.find()){
+            double digit = Double.parseDouble(coolMatcher.group());
+            coolThreshold = coolThreshold * digit;
+        }
+        while (matcher.find()){
+            count++;
+            double sumSymbols = 0;
+            for (int i = 0; i < matcher.group("emoji").length(); i++) {
+                int symbol = matcher.group("emoji").charAt(i);
+                sumSymbols += symbol;
+            }
+            if(sumSymbols > coolThreshold){
+                coolList.add(String.format("%s%s%s",matcher.group(1), matcher.group("emoji"), matcher.group(1)));
+            }
+        }
+        System.out.printf("Cool threshold: %.0f%n", coolThreshold);
+        System.out.printf("%d emojis found in the text. The cool ones are:%n",count);
+        coolList.forEach(System.out::println);
+    }
+}
