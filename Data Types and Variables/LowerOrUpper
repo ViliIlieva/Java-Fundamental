@@ -1,0 +1,16 @@
+import javax.swing.*;
+import java.util.Scanner;
+
+public class LowerOrUpper {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        int digit = input.charAt(0);
+        if(digit >= 65 && digit <= 90){
+            System.out.println("upper-case");
+        }else {
+            System.out.println("lower-case");
+        }
+    }
+}
