@@ -1,0 +1,35 @@
+package DataTypeVariables;
+
+import java.util.Scanner;
+
+public class FromLeftToRight {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < n; i++) {
+            int sumLeft = 0;
+            int sumRight = 0;
+            String input = scanner.nextLine();
+
+            String[] numbers = input.split(" ");
+            long left = Long.parseLong(numbers[0]);
+            long right = Long.parseLong(numbers[1]);
+
+
+            if(left >= right){
+                while(left != 0){
+                    sumLeft +=left % 10;
+                    left = left / 10;
+                }
+                System.out.println(Math.abs(sumLeft));
+            }else{
+                while(right != 0){
+                    sumRight += right % 10;
+                    right = right / 10;
+                }
+                System.out.println(Math.abs(sumRight));
+            }
+        }
+    }
+}
