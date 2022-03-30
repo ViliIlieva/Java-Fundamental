@@ -1,0 +1,20 @@
+import java.math.BigDecimal;
+import java.util.Scanner;
+
+public class FloatingEquality {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        double n1 = Double.parseDouble(scanner.nextLine());
+        double n2 = Double.parseDouble(scanner.nextLine());
+        double eps = 0.000001;
+
+        if(Math.abs(n1 - n2) < eps){
+            System.out.print("True");
+        }else if(Math.abs(n1 - n2) > eps){
+            System.out.printf("False");
+        }else{
+            System.out.printf("False");
+        }
+    }
+}
