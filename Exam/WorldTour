@@ -1,0 +1,43 @@
+import java.util.Scanner;
+
+public class WorldTour {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        StringBuilder text = new StringBuilder(scanner.nextLine());
+        String input = scanner.nextLine();
+        while (!input.equals("Travel")){
+            String [] command = input.split(":");
+            switch (command[0]){
+                case "Add Stop":
+                    int index = Integer.parseInt(command[1]);
+                    if(index <= text.length() && index >= 0){
+                        text.insert(index, command[2]);
+                    }
+                    System.out.println(text);
+                    break;
+                case "Remove Stop":
+                    int startIndex = Integer.parseInt(command[1]);
+                    int endIndex = Integer.parseInt(command[2])+1;
+                    if(startIndex < endIndex && startIndex < text.length() && startIndex >=0 && endIndex <= text.length() && endIndex >= 0){
+                        text.delete(startIndex, endIndex);
+                    }
+                    System.out.println(text);
+                    break;
+                case "Switch":
+                    String oldString = command[1];
+                    String newString = command[2];
+                    if (text.toString().contains(oldString)){
+                        int start = text.indexOf(oldString);
+                        int end = start + oldString.length();
+                        text.delete(start, end);
+                        text.insert(start, newString);
+                    }
+                    System.out.println(text);
+                    break;
+            }
+            input = scanner.nextLine();
+        }
+        System.out.printf("Ready for world tour! Planned stops: %s", text);
+    }
+}
