@@ -1,0 +1,29 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class TopIntegers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int[] numArr = Arrays
+                .stream(scanner.nextLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        int itsBiggerCount = 0;
+        for (int i = 0; i < numArr.length -1; i++) {
+            int first = numArr[i];
+            itsBiggerCount = 0;
+            for (int j = i +1; j < numArr.length; j++) {
+                if(first > numArr[j]){
+                    itsBiggerCount ++;
+                }else {
+                    break;
+                }
+            }
+            if(itsBiggerCount == (numArr.length - (i+1))) {
+                System.out.print(first + " ");;
+            }
+        }
+        System.out.print(numArr[numArr.length - 1]);
+    }
+}
