@@ -1,0 +1,31 @@
+public class Dictionary {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, List<String>> words = new LinkedHashMap<>();
+        String [] input = scanner.nextLine().split(" \\| ");
+        for (int i = 0; i < input.length; i++) {
+            String [] wordAndDefinition = input[i].split(": ");
+            words.putIfAbsent(wordAndDefinition[0], new ArrayList<>());
+            if(words.containsKey(wordAndDefinition[0])){
+                words.get(wordAndDefinition[0]).add(wordAndDefinition[1]);
+            }
+        }
+        input = scanner.nextLine().split(" \\| ");
+        String command = scanner.nextLine();
+        switch (command){
+            case "Test":
+                for (int i = 0; i < input.length; i++) {
+                    if(words.containsKey(input[i])){
+                        System.out.println(input[i] + ":");
+                        words.get(input[i]).forEach(entry -> System.out.printf(" -%s%n", entry));
+                    }
+                }
+                break;
+            case "Hand Over":
+                words.forEach((k,v)-> System.out.printf("%s ", k));
+                break;
+        }
+
+    }
+}
