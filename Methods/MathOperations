@@ -1,0 +1,39 @@
+import java.util.Scanner;
+
+public class MathOperations {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int firstNum = Integer.parseInt(scanner.nextLine());
+        String operator = scanner.nextLine();
+        int secondNum = Integer.parseInt(scanner.nextLine());
+        switch (operator){
+            case "/":
+                divide(firstNum, secondNum);
+                break;
+            case "*":
+                multiply(firstNum, secondNum);
+                break;
+            case "+":
+                add(firstNum, secondNum);
+                break;
+            case "-":
+                subtract(firstNum, secondNum);
+                break;
+
+        }
+
+    }
+    public static void divide (int firstNum, int secondNum){
+        System.out.println(firstNum / secondNum);
+    }
+    public static void multiply (int firstNum, int secondNum){
+        System.out.println(firstNum * secondNum);
+    }
+    public static void add (int firstNum, int secondNum){
+        System.out.println(firstNum + secondNum);
+    }
+    public static void subtract (int firstNum, int secondNum){
+        System.out.println(firstNum - secondNum);
+    }
+}
