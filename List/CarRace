@@ -1,0 +1,34 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class CarRace {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int [] arr = Arrays.stream(scanner.nextLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        int race = arr.length / 2;
+        double sumCar1 = 0;
+        double sumCar2 = 0;
+        for (int i = 0; i < race; i++) {
+            sumCar1 += arr[i];
+            if(arr[i] == 0){
+                    sumCar1 = sumCar1 * 0.8;
+            }
+        }
+        for (int i = arr.length - 1; i > race ; i--){
+            sumCar2 += arr[i];
+            if(arr[i] == 0){
+                sumCar2 = sumCar2 * 0.8;
+            }
+        }
+        if(sumCar1 > sumCar2) {
+            System.out.printf("The winner is right with total time: %.1f", sumCar2);
+        }else{
+            System.out.printf("The winner is left with total time: %.1f", sumCar1);
+        }
+    }
+}
