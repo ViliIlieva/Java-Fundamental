@@ -1,0 +1,46 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class MixedUpList {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<Integer> num1 = Arrays.stream(scanner.nextLine().split(" "))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        List<Integer> num2 = Arrays.stream(scanner.nextLine().split(" "))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        List <Integer> allNumbers = new ArrayList<>();
+        List <Integer> diapason = new ArrayList<>();
+        List <Integer> output = new ArrayList<>();
+
+        int minLength = Math.min(num1.size(), num2.size());
+        int index1 = 0;
+        int index2 = num2.size() - 1;
+        for (int i = 0; i < minLength*2; i++) {
+            if(i % 2 == 0){
+                allNumbers.add(num1.get(index1));
+                index1 ++;
+            }else{
+                allNumbers.add(num2.get(index2));
+                index2 --;
+            }
+        }
+        if (num1.size() > minLength){
+            diapason.add(num1.get(num1.size()-1));
+            diapason.add(num1.get(num1.size()-2));
+        }else{
+            diapason.add(num2.get(0));
+            diapason.add(num2.get(1));
+        }
+        Collections.sort(diapason);
+        for (int i = 0; i < allNumbers.size(); i++) {
+            if(allNumbers.get(i) > diapason.get(0) && allNumbers.get(i) < diapason.get(1)){
+                output.add(allNumbers.get(i));
+            }
+        }
+        Collections.sort(output);
+        System.out.println(output.toString().replaceAll("[\\[\\],]", ""));
+    }
+}
