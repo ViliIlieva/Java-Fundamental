@@ -1,0 +1,25 @@
+import java.util.*;
+
+public class CompanyUsers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map <String, List<String>> companyUsers = new LinkedHashMap<>();
+
+        while (!input.equals("End")){
+            String [] inputArr = input.split(" -> ");
+            companyUsers.putIfAbsent(inputArr[0], new ArrayList<>());
+            if(!companyUsers.get(inputArr[0]).contains(inputArr[1])){
+                companyUsers.get(inputArr[0]).add(inputArr[1]);
+            }
+            input = scanner.nextLine();
+        }
+        for (Map.Entry<String, List<String>> entry : companyUsers.entrySet()) {
+            System.out.printf("%s%n", entry.getKey());
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                System.out.printf("-- %s%n", entry.getValue().get(i));
+            }
+        }
+    }
+}
