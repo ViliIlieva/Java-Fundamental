@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class ForceBook {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String, List<String>> forceBook = new LinkedHashMap<>();
+
+        while (!input.equals("Lumpawaroo")){
+            if(input.contains("|")){
+                String [] inputArr = input.split("\\s+\\|\\s+");
+                forceBook.putIfAbsent(inputArr[0], new ArrayList<>());
+                if(!forceBook.get(inputArr[0]).contains(inputArr[1])){
+                    forceBook.get(inputArr[0]).add(inputArr[1]);
+                }
+            }else{
+                String [] inputArr = input.split("\\s+\\->\\s+");
+                String side = inputArr[1];
+                String username = inputArr[0];
+
+                forceBook.forEach((k, v) -> v.remove(username));
+                forceBook.putIfAbsent(side, new ArrayList<>());
+                forceBook.get(side).add(username);
+                System.out.printf("%s joins the %s side!%n", username, side);
+            }
+            input = scanner.nextLine();
+        }
+        forceBook.forEach((k, v) -> {
+            if (v.size() != 0) {
+                System.out.printf("Side: %s, Members: %d%n", k, v.size());
+                v.forEach(user -> System.out.printf("! %s%n", user));
+            }
+        });
+    }
+}
