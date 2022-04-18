@@ -1,0 +1,54 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Judge {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String line = scanner.nextLine();
+        Map<String, Map<String, Integer>> contestMap = new LinkedHashMap<>();
+
+        while (!line.equals("no more time")) {
+
+            String[] input = line.split("\\s+\\->\\s+");
+            String userName = input[0];
+            String contest = input[1];
+            int points = Integer.parseInt(input[2]);
+
+            contestMap.putIfAbsent(contest, new LinkedHashMap<>());
+            contestMap.get(contest).putIfAbsent(userName, 0);
+            if (contestMap.get(contest).get(userName) < points) {
+                contestMap.get(contest).put(userName, points);
+
+            }
+            line = scanner.nextLine();
+        }
+        Comparator<Map.Entry<String, Integer>> participantsComparator = Map.Entry.<String, Integer>
+                        comparingByValue(Comparator.reverseOrder())
+                .thenComparing(Map.Entry.comparingByKey());
+
+        contestMap.forEach((contest, participants) -> {
+            System.out.printf("%s: %d participants\n", contest, participants.size());
+            final int[] index = {0};
+            participants.entrySet()
+                    .stream()
+                    .sorted(participantsComparator)
+                    .forEach(participant -> {
+                        System.out.printf("%d. %s <::> %d%n", ++index[0], participant.getKey(), participant.getValue());
+                    });
+        });
+
+        System.out.println("Individual standings: ");
+        final int[] index = {0};
+        contestMap.values()
+                .stream()
+                .flatMap(m -> m.entrySet().stream())
+                .collect(Collectors.groupingBy(Map.Entry::getKey,Collectors.summingInt(Map.Entry::getValue)))
+                .entrySet()
+                .stream()
+                .sorted(participantsComparator)
+                .forEach(entry ->{
+                    System.out.printf("%d. %s -> %d%n", ++index[0], entry.getKey(), entry.getValue());
+                });
+    }
+}
