@@ -1,0 +1,66 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class LegendaryFarming {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String line = scanner.nextLine();
+        Map <String, Integer> materialsMap = new LinkedHashMap<>(){{
+            put("shards", 0);
+            put("fragments", 0);
+            put("motes", 0);
+        }};
+        LinkedHashMap <String, Integer> junkMap = new LinkedHashMap<>();
+        boolean isValid = false;
+        while (!isValid) {
+            List <String> input = Arrays.stream(line.split(" "))
+                    .map(e -> e.toLowerCase())
+                    .collect(Collectors.toList());
+            for (int i = 1; i <= input.size(); i++) {
+                String material = input.get(i);
+                int quantity = Integer.parseInt(input.get(i - 1));
+
+                if (material.equals("shards") || material.equals("fragments") || material.equals("motes")) {
+                    materialsMap.put(material, materialsMap.get(material) + quantity);
+
+                    if(materialsMap.get(material) >= 250){
+                        materialsMap.put(material, materialsMap.get(material) - 250);
+                        switch (material){
+                            case "shards":
+                                System.out.println("Shadowmourne obtained!");
+                                break;
+                            case "fragments":
+                                System.out.println("Valanyr obtained!");
+                                break;
+                            case "motes":
+                                System.out.println("Dragonwrath obtained!");
+                                break;
+                        }
+                        isValid = true;
+                        break;
+                    }
+                } else {
+                    if (!junkMap.containsKey(material)) {
+                        junkMap.put(material, quantity);
+                    } else {
+                        junkMap.put(material, junkMap.get(material) + quantity);
+                    }
+                }
+                i += 1;
+            }
+            if(isValid){
+                break;
+            }else {
+                line = scanner.nextLine();
+            }
+        }
+        materialsMap.entrySet().forEach(e -> System.out.printf("%s: %d%n", e.getKey(), e.getValue()));
+
+        for (Map.Entry<String, Integer> entry : junkMap.entrySet()) {
+            System.out.printf("%s: %d%n", entry.getKey(), entry.getValue());
+        }
+
+
+    }
+}
