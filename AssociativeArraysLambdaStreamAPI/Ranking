@@ -1,0 +1,57 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class Ranking {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String, String> contests = new LinkedHashMap<>();
+        Map<String, Map<String, Integer>> userList = new TreeMap<>();
+
+        while (!input.equals("end of contests")) {
+            String[] inputArr = input.split(":");
+            contests.put(inputArr[0], inputArr[1]);
+            input = scanner.nextLine();
+        }
+        input = scanner.nextLine();
+        while (!input.equals("end of submissions")) {
+            String[] inputArr = input.split("=>");
+            String contest = inputArr[0];
+            String password = inputArr[1];
+            String userName = inputArr[2];
+            int points = Integer.parseInt(inputArr[3]);
+
+            if (contests.containsKey(contest) && contests.get(inputArr[0]).equals(password)) {
+                userList.putIfAbsent(userName, new LinkedHashMap<>());
+                userList.get(userName).putIfAbsent(contest, 0);
+                if (userList.get(userName).get(contest) < points) {
+                    userList.get(userName).put(contest, points);
+                }
+            }
+            input = scanner.nextLine();
+        }
+        String bestCandidate = "";
+        int bestPoints = 0;
+
+        for (Map.Entry<String, Map<String, Integer>> entry : userList.entrySet()) {
+            int currentSum = 0;
+            for (Map.Entry<String, Integer> integerEntry : entry.getValue().entrySet()) {
+                currentSum += integerEntry.getValue();
+            }
+            if (currentSum > bestPoints) {
+                bestPoints = currentSum;
+                bestCandidate = entry.getKey();
+            }
+        }
+        System.out.printf("Best candidate is %s with total %d points.%n",bestCandidate, bestPoints);
+        System.out.println("Ranking: ");
+        userList.forEach((k,v) -> {
+            System.out.printf("%s%n", k);
+            v.entrySet().stream().sorted((a,b) -> b.getValue().compareTo(a.getValue()))
+                    .forEach(s -> System.out.printf("#  %s -> %d%n",s.getKey(), s.getValue()));
+        });
+    }
+}
