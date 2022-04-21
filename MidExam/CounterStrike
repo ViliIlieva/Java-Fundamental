@@ -1,0 +1,32 @@
+import java.util.Scanner;
+
+public class CounterStrike {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int energy = Integer.parseInt(scanner.nextLine());
+        String input = scanner.nextLine();
+        int countWinBattle = 0;
+        boolean noWin = false;
+
+        while (!input.equals("End of battle")){
+            int distance = Integer.parseInt(input);
+
+            if(energy >= distance){
+                countWinBattle ++;
+                energy -= distance;
+                if(countWinBattle % 3 == 0){
+                    energy += countWinBattle;
+                }
+            }else{
+                noWin = true;
+                System.out.printf("Not enough energy! Game ends with %d won battles and %d energy", countWinBattle, energy);
+                break;
+            }
+            input = scanner.nextLine();
+        }
+        if(!noWin){
+            System.out.printf("Won battles: %d. Energy left: %d",countWinBattle, energy);
+        }
+    }
+}
