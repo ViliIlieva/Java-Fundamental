@@ -1,0 +1,35 @@
+import java.sql.Array;
+import java.util.*;
+
+public class Numbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int [] numArr = Arrays.stream(scanner.nextLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        List <Integer> topNum = new ArrayList<>();
+        double sumAllNum = 0;
+        double average = 0;
+        for (int i = 0; i < numArr.length; i++) {
+            sumAllNum += numArr[i];
+        }
+        average = sumAllNum / numArr.length;
+        for (int i = 0; i < numArr.length; i++) {
+            if(numArr[i] > average){
+                topNum.add(numArr[i]);
+            }
+        }
+        Collections.sort(topNum);
+        Collections.reverse(topNum);
+        if(topNum.size() > 5) {
+            for (int i = 0; i < 5; i++) {
+                System.out.print(topNum.get(i) + " ");
+            }
+        }else if(topNum.isEmpty()) {
+            System.out.println("No");
+        }else{
+            topNum.forEach(el -> System.out.print(el + " "));
+        }
+    }
+}
