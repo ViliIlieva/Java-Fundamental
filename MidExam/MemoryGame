@@ -1,0 +1,53 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class MemoryGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List <String> numList = Arrays.stream(scanner.nextLine().split(" "))
+                .collect(Collectors.toList());
+        String input = scanner.nextLine();
+        int moves = 0;
+        boolean youWin = false;
+
+        while (!input.equals("end")){
+            moves ++;
+            int index1 = Integer.parseInt(input.split(" ")[0]);
+            int index2 = Integer.parseInt(input.split(" ")[1]);
+            if(index1 < 0 || index1 >= numList.size() || index2 < 0 || index2 >= numList.size() || index1 == index2){
+                System.out.println("Invalid input! Adding additional elements to the board");
+                String addSumbol = "-" + moves + "a";
+                numList.add(numList.size()/2, addSumbol);
+                numList.add(numList.size()/2, addSumbol);
+                input = scanner.nextLine();
+                continue;
+            }
+            if(Objects.equals(numList.get(index1), numList.get(index2))){
+                System.out.printf("Congrats! You have found matching elements - %s!%n", numList.get(index1));
+                if(index1 > index2){
+                    numList.remove(index1);
+                    numList.remove(index2);
+                }else{
+                    numList.remove(index2);
+                    numList.remove(index1);
+                }
+            }else{
+                System.out.println("Try again!");
+            }
+            if(numList.isEmpty()){
+                System.out.printf("You have won in %d turns!%n", moves);
+                youWin = true;
+                break;
+            }
+            input = scanner.nextLine();
+        }
+        if(!youWin) {
+            System.out.printf("Sorry you lose :(%n");
+            numList.forEach(el -> System.out.print(el + " "));
+        }
+    }
+}
